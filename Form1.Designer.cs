@@ -118,6 +118,15 @@
             btnInit.UseVisualStyleBackColor = true;
             btnInit.Click += new System.EventHandler(this.btnInit_Click);
             // 
+            // btnClear
+            // 
+            btnClear.Location = new System.Drawing.Point(275, 271);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new System.Drawing.Size(44, 93);
+            btnClear.TabIndex = 15;
+            btnClear.Text = "خالی کردن";
+            btnClear.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(btnAutoCapture);
@@ -133,9 +142,9 @@
             // lbScannerList
             // 
             this.lbScannerList.FormattingEnabled = true;
-            this.lbScannerList.Location = new System.Drawing.Point(402, 93);
+            this.lbScannerList.Location = new System.Drawing.Point(275, 93);
             this.lbScannerList.Name = "lbScannerList";
-            this.lbScannerList.Size = new System.Drawing.Size(188, 43);
+            this.lbScannerList.Size = new System.Drawing.Size(315, 43);
             this.lbScannerList.TabIndex = 12;
             // 
             // label1
@@ -157,15 +166,6 @@
             this.pbImageFrame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbImageFrame.TabIndex = 10;
             this.pbImageFrame.TabStop = false;
-            // 
-            // btnClear
-            // 
-            btnClear.Location = new System.Drawing.Point(275, 271);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new System.Drawing.Size(44, 93);
-            btnClear.TabIndex = 15;
-            btnClear.Text = "خالی کردن";
-            btnClear.UseVisualStyleBackColor = true;
             // 
             // tbxMessage
             // 
