@@ -35,10 +35,13 @@
             System.Windows.Forms.Button btnSaveImage;
             System.Windows.Forms.Button btnStartCapturing;
             System.Windows.Forms.Button btnInit;
+            System.Windows.Forms.Button btnClear;
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lbScannerList = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pbImageFrame = new System.Windows.Forms.PictureBox();
+            this.tbxMessage = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             btnAutoCapture = new System.Windows.Forms.Button();
             btnCaptureSingle = new System.Windows.Forms.Button();
             btnAbortCapturing = new System.Windows.Forms.Button();
@@ -46,24 +49,10 @@
             btnSaveImage = new System.Windows.Forms.Button();
             btnStartCapturing = new System.Windows.Forms.Button();
             btnInit = new System.Windows.Forms.Button();
+            btnClear = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImageFrame)).BeginInit();
             this.SuspendLayout();
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(btnAutoCapture);
-            this.groupBox2.Controls.Add(btnCaptureSingle);
-            this.groupBox2.Controls.Add(btnAbortCapturing);
-            this.groupBox2.Controls.Add(btnExtract);
-            this.groupBox2.Controls.Add(btnSaveImage);
-            this.groupBox2.Controls.Add(btnStartCapturing);
-            this.groupBox2.Location = new System.Drawing.Point(295, 293);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(373, 80);
-            this.groupBox2.TabIndex = 13;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Use Scanner";
             // 
             // btnAutoCapture
             // 
@@ -94,35 +83,57 @@
             // 
             // btnExtract
             // 
-            btnExtract.Location = new System.Drawing.Point(110, 46);
+            btnExtract.Location = new System.Drawing.Point(12, 271);
             btnExtract.Name = "btnExtract";
-            btnExtract.Size = new System.Drawing.Size(96, 24);
+            btnExtract.Size = new System.Drawing.Size(126, 24);
             btnExtract.TabIndex = 11;
-            btnExtract.Text = "Extract";
+            btnExtract.Text = "ذخیره در بانک اطلاعاتی";
             btnExtract.UseVisualStyleBackColor = true;
             // 
             // btnSaveImage
             // 
-            btnSaveImage.Location = new System.Drawing.Point(110, 16);
+            btnSaveImage.Location = new System.Drawing.Point(12, 301);
             btnSaveImage.Name = "btnSaveImage";
-            btnSaveImage.Size = new System.Drawing.Size(96, 24);
+            btnSaveImage.Size = new System.Drawing.Size(126, 24);
             btnSaveImage.TabIndex = 17;
-            btnSaveImage.Text = "Save Image";
+            btnSaveImage.Text = "دریافت تصویر";
             btnSaveImage.UseVisualStyleBackColor = true;
             // 
             // btnStartCapturing
             // 
-            btnStartCapturing.Location = new System.Drawing.Point(8, 16);
+            btnStartCapturing.Location = new System.Drawing.Point(144, 271);
             btnStartCapturing.Name = "btnStartCapturing";
             btnStartCapturing.Size = new System.Drawing.Size(96, 24);
             btnStartCapturing.TabIndex = 10;
-            btnStartCapturing.Text = "Start Capturing";
+            btnStartCapturing.Text = "شروع اسکن";
             btnStartCapturing.UseVisualStyleBackColor = true;
+            // 
+            // btnInit
+            // 
+            btnInit.Location = new System.Drawing.Point(478, 12);
+            btnInit.Name = "btnInit";
+            btnInit.Size = new System.Drawing.Size(112, 24);
+            btnInit.TabIndex = 9;
+            btnInit.Text = "آماده سازی اسکنر";
+            btnInit.UseVisualStyleBackColor = true;
+            btnInit.Click += new System.EventHandler(this.btnInit_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(btnAutoCapture);
+            this.groupBox2.Controls.Add(btnCaptureSingle);
+            this.groupBox2.Controls.Add(btnAbortCapturing);
+            this.groupBox2.Location = new System.Drawing.Point(275, 164);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(315, 80);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Use Scanner";
             // 
             // lbScannerList
             // 
             this.lbScannerList.FormattingEnabled = true;
-            this.lbScannerList.Location = new System.Drawing.Point(481, 93);
+            this.lbScannerList.Location = new System.Drawing.Point(402, 93);
             this.lbScannerList.Name = "lbScannerList";
             this.lbScannerList.Size = new System.Drawing.Size(188, 43);
             this.lbScannerList.TabIndex = 12;
@@ -130,7 +141,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(600, 67);
+            this.label1.Location = new System.Drawing.Point(518, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 11;
@@ -147,22 +158,47 @@
             this.pbImageFrame.TabIndex = 10;
             this.pbImageFrame.TabStop = false;
             // 
-            // btnInit
+            // btnClear
             // 
-            btnInit.Location = new System.Drawing.Point(556, 12);
-            btnInit.Name = "btnInit";
-            btnInit.Size = new System.Drawing.Size(112, 24);
-            btnInit.TabIndex = 9;
-            btnInit.Text = "آماده سازی اسکنر";
-            btnInit.UseVisualStyleBackColor = true;
+            btnClear.Location = new System.Drawing.Point(275, 271);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new System.Drawing.Size(44, 93);
+            btnClear.TabIndex = 15;
+            btnClear.Text = "خالی کردن";
+            btnClear.UseVisualStyleBackColor = true;
+            // 
+            // tbxMessage
+            // 
+            this.tbxMessage.Location = new System.Drawing.Point(324, 271);
+            this.tbxMessage.Multiline = true;
+            this.tbxMessage.Name = "tbxMessage";
+            this.tbxMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbxMessage.Size = new System.Drawing.Size(266, 93);
+            this.tbxMessage.TabIndex = 14;
+            this.tbxMessage.WordWrap = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(542, 251);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(48, 13);
+            this.label2.TabIndex = 16;
+            this.label2.Text = "رویدادها:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(686, 396);
+            this.ClientSize = new System.Drawing.Size(603, 376);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(btnClear);
+            this.Controls.Add(this.tbxMessage);
+            this.Controls.Add(btnSaveImage);
+            this.Controls.Add(btnExtract);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.lbScannerList);
+            this.Controls.Add(btnStartCapturing);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pbImageFrame);
             this.Controls.Add(btnInit);
@@ -173,6 +209,7 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "اسکن اثر انگشت";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbImageFrame)).EndInit();
             this.ResumeLayout(false);
@@ -186,6 +223,8 @@
         private System.Windows.Forms.ListBox lbScannerList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pbImageFrame;
+        private System.Windows.Forms.TextBox tbxMessage;
+        private System.Windows.Forms.Label label2;
     }
 }
 
