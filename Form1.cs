@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using Suprema;
 
@@ -10,31 +11,12 @@ namespace FingerPrint
         //مقداردهی اولیه
         UFScannerManager m_ScannerManager;
         string m_strError;
-        byte[][] m_template1;
-        int[] m_template_size1;
-        byte[][] m_template2;
-        int[] m_template_size2;
-        int m_template_num;
-        string[] m_UserID;
-        int m_quality;
-        int m_nType;
-        //
-        byte[] m_pUFTemplateBuf;
-        int[] m_pUFTemplateBufSize;
-        byte[] m_pISOTemplateBuf;
-        int[] m_pISOTemplateBufSize;
+
         //
         const int MAX_TEMPLATE_SIZE = 1024;
-        const int MAX_TEMPLATE_NUM = 50;
 
-        const int MAX_USERID_SIZE = 10;
-        const int MAX_TEMPLATE_INPUT_NUM = 4;
-        const int MAX_TEMPLATE_OUTPUT_NUM = 2;
 
-        const int FINGERDATA_COL_SERIAL = 0;
-        const int FINGERDATA_COL_USERID = 1;
-        const int FINGERDATA_COL_TEMPLATE1 = 2;
-        const int FINGERDATA_COL_TEMPLATE2 = 3;
+
         public Form1()
         {
             InitializeComponent();
@@ -45,10 +27,31 @@ namespace FingerPrint
             m_ScannerManager = new UFScannerManager(this);
         }
 
+        private void UnInint()
+        {
+            UFS_STATUS ufs_res;
+
+            Cursor.Current = Cursors.WaitCursor;
+            ufs_res = m_ScannerManager.Uninit();
+            Cursor.Current = this.Cursor;
+            //if (ufs_res == UFS_STATUS.OK)
+            //{
+            //    tbxMessage.AppendText("UFScanner Uninit: OK\r\n");
+            //    m_ScannerManager.ScannerEvent -= ScannerEvent;
+            //    lbScannerList.Items.Clear();
+            //}
+            //else
+            //{
+            //    UFScanner.GetErrorString(ufs_res, out m_strError);
+            //    tbxMessage.AppendText("UFScanner Uninit: " + m_strError + "\r\n");
+            //}
+
+            pbImageFrame.Image = null;
+        }
         private void btnInit_Click(object sender, EventArgs e)
         {
             //آماده سازی اسکنر
-
+            UnInint();
             UFS_STATUS ufs_res;
             int nScannerNumber;
 
@@ -74,7 +77,7 @@ namespace FingerPrint
 
                 nScannerNumber = m_ScannerManager.Scanners.Count;
                 if (nScannerNumber == 0)
-                    tbxMessage.AppendText("اسکنر یافت نشد. اتصال دستگاه را بررسی نمایید."  + "\r\n");
+                    tbxMessage.AppendText("اسکنر یافت نشد. اتصال دستگاه را بررسی نمایید." + "\r\n");
                 else
                 {
                     tbxMessage.AppendText("آماده سازی اسکنر انجام شد.\r\n");
@@ -84,7 +87,7 @@ namespace FingerPrint
 
                 UpdateScannerList();
             }
-            catch (System.DllNotFoundException )
+            catch (System.DllNotFoundException)
             {
                 tbxMessage.AppendText("خطا: فایل های اجرایی مورد نیاز یافت نشد\r\n");
 
@@ -172,13 +175,13 @@ namespace FingerPrint
 
                 Scanner = m_ScannerManager.Scanners[i];
 
-                tbxMessage.AppendText("یک دستگاه متصل شناسایی شد" + i + " شماره سریال: " + Scanner.Serial + "\r\n");
+                tbxMessage.AppendText(" دستگاه متصل شناسایی شد" + i + " شماره سریال: " + Scanner.Serial + "\r\n");
 
                 ScannerType = Scanner.ScannerType;
                 strID = Scanner.ID;
-              
 
-                str_tmp = "دستگاه شناسایی شد" +"("+ strID.Substring(0,10)+")";
+
+                str_tmp = "دستگاه شناسایی شد" + "(" + strID.Substring(0, 10) + ")";
                 lbScannerList.Items.Add(str_tmp);
                 lbScannerList.SelectedIndex = 0;
 
@@ -225,7 +228,7 @@ namespace FingerPrint
             }
         }
 
-        private void btnExtract_Click(object sender, EventArgs e)
+        private void btnExtract_Click(object sender, EventArgs e)N
         {
             UFScanner Scanner;
             UFS_STATUS ufs_res;
@@ -247,8 +250,14 @@ namespace FingerPrint
 
             if (ufs_res == UFS_STATUS.OK)
             {
-                
-                tbxMessage.AppendText(String.Format("عملیات موفق({0}), کیفیت({1})\r\n", TemplateSize, EnrollQuality));
+                //---------------------------------------------------------------------------------------------------------------
+
+                //مقدار متغیر Template
+                //را در دیتابیس ذخیره نمایید
+
+                //---------------------------------------------------------------------------------------------------------------
+
+                tbxMessage.AppendText(String.Format("عملیات با موفقیت انجام شد\r\n", TemplateSize, EnrollQuality));
             }
             else
             {
@@ -256,6 +265,8 @@ namespace FingerPrint
                 tbxMessage.AppendText("عملیات با خطا مواجه شد: " + m_strError + "\r\n");
             }
             DrawCapturedImage(Scanner);
+            
+
         }
         private void DrawCapturedImage(UFScanner Scanner)
         {
@@ -299,30 +310,66 @@ namespace FingerPrint
             }
             else
             {
-                nFilterIdx = dlg.FilterIndex;
-            }
-
-            if (nFilterIdx == 1)
-            {
                 ufs_res = Scanner.SaveCaptureImageBufferToBMP(dlg.FileName);
                 if (ufs_res == UFS_STATUS.OK)
                 {
                     tbxMessage.AppendText("تصویر اثر انگشت ذخیره شد: " + dlg.FileName + "\r\n");
                 }
+
             }
-            else if (nFilterIdx == 2)
-            {
-                ufs_res = Scanner.SaveCaptureImageBufferToWSQ(dlg.FileName, (float)2.25);
-                if (ufs_res == UFS_STATUS.OK)
-                {
-                    tbxMessage.AppendText("تصویر اثر انگشت ذخیره شد: " + dlg.FileName + "\r\n");
-                }
-            }
+
+
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             tbxMessage.Clear();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UFScanner Scanner;
+            UFS_STATUS ufs_res;
+            if (!GetGetCurrentScanner(out Scanner))
+            {
+                return;
+            }
+            ufs_res = Scanner.RemoveScannerCallback();
+
+            UnInint();
+        }
+
+        private void btnCaptureSingle_Click(object sender, EventArgs e)
+        {
+            UFScanner Scanner;
+            UFS_STATUS ufs_res;
+            if (!GetGetCurrentScanner(out Scanner))
+            {
+                return;
+            }
+            btnClear_Click(null, null);
+
+            tbxMessage.AppendText("انگشت خود رو روی حسگر قرار دهید...\r\n");
+            tbxMessage.Update();
+            Cursor.Current = Cursors.WaitCursor;
+            ufs_res = Scanner.CaptureSingleImage();
+            Cursor.Current = this.Cursor;
+            isPreview = true;
+            if (ufs_res == UFS_STATUS.OK)
+            {
+                tbxMessage.AppendText("اثر انگشت دریافت شد.\r\n");
+                //امتیاز LFD
+                if (Scanner.LfdScore > 0)
+                {
+                    tbxMessage.AppendText("LFD امتیاز : " + Scanner.LfdScore + "\r\n");
+                }
+                DrawCapturedImage(Scanner);
+            }
+            else
+            {
+                UFScanner.GetErrorString(ufs_res, out m_strError);
+                tbxMessage.AppendText("هنگام عملیات اسکن خطا رخ داده است\r\n");
+            }
         }
     }
 }
