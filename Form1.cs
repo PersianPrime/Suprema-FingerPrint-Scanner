@@ -228,7 +228,7 @@ namespace FingerPrint
             }
         }
 
-        private void btnExtract_Click(object sender, EventArgs e)N
+        private void btnExtract_Click(object sender, EventArgs e)
         {
             UFScanner Scanner;
             UFS_STATUS ufs_res;
@@ -257,7 +257,7 @@ namespace FingerPrint
 
                 //---------------------------------------------------------------------------------------------------------------
 
-                tbxMessage.AppendText(String.Format("عملیات با موفقیت انجام شد\r\n", TemplateSize, EnrollQuality));
+                tbxMessage.AppendText(String.Format("عملیات با موفقیت انجام شد.\r\n", TemplateSize, EnrollQuality));
             }
             else
             {
