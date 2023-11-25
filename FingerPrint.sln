@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FingerPrint", "FingerPrint.csproj", "{F69EA1AD-E6BA-43A9-B997-ED104DF63123}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojtabaExtensions", "..\MojtabaExtensions\MojtabaExtensions.csproj", "{A21E36FE-5862-4766-8C8C-3EDF4F8F7375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F69EA1AD-E6BA-43A9-B997-ED104DF63123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F69EA1AD-E6BA-43A9-B997-ED104DF63123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F69EA1AD-E6BA-43A9-B997-ED104DF63123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A21E36FE-5862-4766-8C8C-3EDF4F8F7375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A21E36FE-5862-4766-8C8C-3EDF4F8F7375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A21E36FE-5862-4766-8C8C-3EDF4F8F7375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A21E36FE-5862-4766-8C8C-3EDF4F8F7375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

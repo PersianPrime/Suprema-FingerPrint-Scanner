@@ -37,6 +37,9 @@
     <StartupObject>FingerPrint.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MojtabaExtensions">
+      <HintPath>..\MojtabaExtensions\bin\Debug\MojtabaExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Suprema.UFScanner, Version=3.10.0.238, Culture=neutral, PublicKeyToken=48f19decc3fc5c20, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Suprema Scan\Biomini Scaner SDK\Bin\x64\Suprema.UFScanner.dll</HintPath>

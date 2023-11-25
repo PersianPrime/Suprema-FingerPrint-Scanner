@@ -3,20 +3,18 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Suprema;
+using MojtabaExtensions;
 
 namespace FingerPrint
 {
     public partial class Form1 : Form
     {
         //مقداردهی اولیه
+        private readonly MojtabaExtensions.FingerPrint _baseClass=new MojtabaExtensions.FingerPrint();
         UFScannerManager m_ScannerManager;
         string m_strError;
-
-        //
         const int MAX_TEMPLATE_SIZE = 1024;
-
-
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -26,18 +24,17 @@ namespace FingerPrint
         {
             m_ScannerManager = new UFScannerManager(this);
         }
-
-        private void UnInint()
+        private void UnInit()
         {
             UFS_STATUS ufs_res;
 
             Cursor.Current = Cursors.WaitCursor;
-            ufs_res = m_ScannerManager.Uninit();
+            _baseClass.UnInit(ref m_ScannerManager, out ufs_res);
             Cursor.Current = this.Cursor;
             //if (ufs_res == UFS_STATUS.OK)
             //{
             //    tbxMessage.AppendText("UFScanner Uninit: OK\r\n");
-            //    m_ScannerManager.ScannerEvent -= ScannerEvent;
+            m_ScannerManager.ScannerEvent -= ScannerEvent;
             //    lbScannerList.Items.Clear();
             //}
             //else
@@ -51,15 +48,14 @@ namespace FingerPrint
         private void btnInit_Click(object sender, EventArgs e)
         {
             //آماده سازی اسکنر
-            UnInint();
+            UnInit();
             UFS_STATUS ufs_res;
             int nScannerNumber;
 
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                ufs_res = m_ScannerManager.Init();
-
+                _baseClass.Init(ref m_ScannerManager,out ufs_res);
 
 
                 if (ufs_res == UFS_STATUS.OK)
@@ -97,7 +93,7 @@ namespace FingerPrint
             Cursor.Current = this.Cursor;
         }
 
-        //تعریف دلگیت به روزرسانی تصویر 
+        //تعریف دلگیت بروزرسانی تصویر 
         private delegate void _UpdatePictureBox(PictureBox pbox, Bitmap image);
 
         public void UpdatePictureBox(PictureBox pbox, Image image)
@@ -113,7 +109,7 @@ namespace FingerPrint
             {
                 // We are in the correct thread, so assign the image
                 pbox.Image = image;
-                //System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(100);
             }
         }
         public int CaptureEvent(object sender, UFScannerCaptureEventArgs e)
@@ -227,7 +223,6 @@ namespace FingerPrint
                 return false;
             }
         }
-
         private void btnExtract_Click(object sender, EventArgs e)
         {
             UFScanner Scanner;
@@ -243,18 +238,18 @@ namespace FingerPrint
             byte[] Template = new byte[MAX_TEMPLATE_SIZE];
             int TemplateSize;
             int EnrollQuality;
+            Bitmap Bitmap;
+            int Resolution;
 
             Cursor.Current = Cursors.WaitCursor;
-            ufs_res = Scanner.ExtractEx(MAX_TEMPLATE_SIZE, Template, out TemplateSize, out EnrollQuality);
+            _baseClass.Extract(ref Scanner,MAX_TEMPLATE_SIZE,ref Template, out TemplateSize, out EnrollQuality,out ufs_res,out Bitmap,out Resolution);
             Cursor.Current = this.Cursor;
 
             if (ufs_res == UFS_STATUS.OK)
             {
                 //---------------------------------------------------------------------------------------------------------------
-
-                //مقدار متغیر Template
-                //را در دیتابیس ذخیره نمایید
-
+                    //مقدار متغیرهای زیر را در دیتابیس ذخیره نمایید:
+                    //Template,Bitmap
                 //---------------------------------------------------------------------------------------------------------------
 
                 tbxMessage.AppendText(String.Format("عملیات با موفقیت انجام شد.\r\n", TemplateSize, EnrollQuality));
@@ -288,7 +283,6 @@ namespace FingerPrint
                 g.Dispose();
             }
         }
-
         private void btnSaveImage_Click(object sender, EventArgs e)
         {
             UFScanner Scanner;
@@ -320,12 +314,10 @@ namespace FingerPrint
 
 
         }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             tbxMessage.Clear();
         }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             UFScanner Scanner;
@@ -336,9 +328,8 @@ namespace FingerPrint
             }
             ufs_res = Scanner.RemoveScannerCallback();
 
-            UnInint();
+            UnInit();
         }
-
         private void btnCaptureSingle_Click(object sender, EventArgs e)
         {
             UFScanner Scanner;
@@ -352,7 +343,7 @@ namespace FingerPrint
             tbxMessage.AppendText("انگشت خود رو روی حسگر قرار دهید...\r\n");
             tbxMessage.Update();
             Cursor.Current = Cursors.WaitCursor;
-            ufs_res = Scanner.CaptureSingleImage();
+            _baseClass.CaptureSingleImage(ref Scanner,out ufs_res);
             Cursor.Current = this.Cursor;
             isPreview = true;
             if (ufs_res == UFS_STATUS.OK)
