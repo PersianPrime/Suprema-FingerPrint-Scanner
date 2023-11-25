@@ -262,7 +262,7 @@ namespace FingerPrint
             else
             {
                 UFScanner.GetErrorString(ufs_res, out m_strError);
-                tbxMessage.AppendText("عملیات با خطا مواجه شد: " + m_strError + "\r\n");
+                tbxMessage.AppendText("عملیات با خطا مواجه شد: "+ "\r\n");
             }
             DrawCapturedImage(Scanner);
             
