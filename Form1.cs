@@ -14,7 +14,7 @@ namespace FingerPrint
         UFScannerManager m_ScannerManager;
         string m_strError;
         const int MAX_TEMPLATE_SIZE = 1024;
-        
+        const int MIN_ENROLL_QUALITY = 40;
         public Form1()
         {
             InitializeComponent();
@@ -247,17 +247,26 @@ namespace FingerPrint
 
             if (ufs_res == UFS_STATUS.OK)
             {
-                //---------------------------------------------------------------------------------------------------------------
+                if (EnrollQuality < MIN_ENROLL_QUALITY)
+                {
+                    tbxMessage.AppendText("خطا: کیفیت اثر انگشت دریافت شده پایین است." + "\r\n");
+
+                }
+                else
+                {
+                    //---------------------------------------------------------------------------------------------------------------
                     //مقدار متغیرهای زیر را در دیتابیس ذخیره نمایید:
                     //Template,Bitmap
-                //---------------------------------------------------------------------------------------------------------------
+                    //---------------------------------------------------------------------------------------------------------------
+                }
+
 
                 tbxMessage.AppendText(String.Format("عملیات با موفقیت انجام شد.\r\n", TemplateSize, EnrollQuality));
             }
             else
             {
                 UFScanner.GetErrorString(ufs_res, out m_strError);
-                tbxMessage.AppendText("عملیات با خطا مواجه شد: "+ "\r\n");
+                tbxMessage.AppendText("عملیات با خطا مواجه شد "+ "\r\n");
             }
             DrawCapturedImage(Scanner);
             
@@ -359,7 +368,7 @@ namespace FingerPrint
             else
             {
                 UFScanner.GetErrorString(ufs_res, out m_strError);
-                tbxMessage.AppendText("هنگام عملیات اسکن خطا رخ داده است\r\n");
+                tbxMessage.AppendText("اثر انگشتی دریافت نشد. لطفا مجددا تلاش فرمایید.\r\n");
             }
         }
     }
