@@ -3,15 +3,14 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Suprema;
-using MojtabaExtensions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FingerPrint
 {
     public partial class Form1 : Form
     {
         //مقداردهی اولیه
-        private readonly MojtabaExtensions.FingerPrint _baseClass=new MojtabaExtensions.FingerPrint();
-        UFScannerManager m_ScannerManager;
+      UFScannerManager m_ScannerManager;
         string m_strError;
         const int MAX_TEMPLATE_SIZE = 1024;
         const int MIN_ENROLL_QUALITY = 40;
@@ -29,7 +28,7 @@ namespace FingerPrint
             UFS_STATUS ufs_res;
 
             Cursor.Current = Cursors.WaitCursor;
-            _baseClass.UnInit(ref m_ScannerManager, out ufs_res);
+            m_ScannerManager.Uninit();
             Cursor.Current = this.Cursor;
             //if (ufs_res == UFS_STATUS.OK)
             //{
@@ -55,7 +54,7 @@ namespace FingerPrint
             Cursor.Current = Cursors.WaitCursor;
             try
             {
-                _baseClass.Init(ref m_ScannerManager,out ufs_res);
+                ufs_res =m_ScannerManager.Init();
 
 
                 if (ufs_res == UFS_STATUS.OK)
@@ -242,7 +241,9 @@ namespace FingerPrint
             int Resolution;
 
             Cursor.Current = Cursors.WaitCursor;
-            _baseClass.Extract(ref Scanner,MAX_TEMPLATE_SIZE,ref Template, out TemplateSize, out EnrollQuality,out ufs_res,out Bitmap,out Resolution);
+            ufs_res = Scanner.ExtractEx(MAX_TEMPLATE_SIZE,Template, out TemplateSize, out EnrollQuality);
+
+            Scanner.GetCaptureImageBuffer(out Bitmap, out Resolution);
             Cursor.Current = this.Cursor;
 
             if (ufs_res == UFS_STATUS.OK)
@@ -352,7 +353,7 @@ namespace FingerPrint
             tbxMessage.AppendText("انگشت خود رو روی حسگر قرار دهید...\r\n");
             tbxMessage.Update();
             Cursor.Current = Cursors.WaitCursor;
-            _baseClass.CaptureSingleImage(ref Scanner,out ufs_res);
+            ufs_res=Scanner.CaptureSingleImage();
             Cursor.Current = this.Cursor;
             isPreview = true;
             if (ufs_res == UFS_STATUS.OK)
